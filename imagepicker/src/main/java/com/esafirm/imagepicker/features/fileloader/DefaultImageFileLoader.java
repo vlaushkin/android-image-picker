@@ -1,7 +1,9 @@
 package com.esafirm.imagepicker.features.fileloader;
 
+import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.provider.MediaStore;
 
 import androidx.annotation.Nullable;
@@ -98,22 +100,28 @@ public class DefaultImageFileLoader implements ImageFileLoader {
         @Override
         public void run() {
             Cursor cursor;
+            Uri contentUri;
+
             if (onlyVideo) {
                 String selection = MediaStore.Files.FileColumns.MEDIA_TYPE + "="
                         + MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO;
+                contentUri = MediaStore.Files.getContentUri("external");
 
-                cursor = context.getContentResolver().query(MediaStore.Files.getContentUri("external"), projection,
+                cursor = context.getContentResolver().query(contentUri, projection,
                         selection, null, MediaStore.Images.Media.DATE_ADDED);
             } else if (includeVideo) {
                 String selection = MediaStore.Files.FileColumns.MEDIA_TYPE + "="
                         + MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE + " OR "
                         + MediaStore.Files.FileColumns.MEDIA_TYPE + "="
                         + MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO;
+                contentUri = MediaStore.Files.getContentUri("external");
 
-                cursor = context.getContentResolver().query(MediaStore.Files.getContentUri("external"), projection,
+                cursor = context.getContentResolver().query(contentUri, projection,
                         selection, null, MediaStore.Images.Media.DATE_ADDED);
             } else {
-                cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection,
+                contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+
+                cursor = context.getContentResolver().query(contentUri, projection,
                         null, null, MediaStore.Images.Media.DATE_ADDED);
             }
 
@@ -151,7 +159,8 @@ public class DefaultImageFileLoader implements ImageFileLoader {
                     String name = cursor.getString(cursor.getColumnIndex(projection[1]));
                     String bucket = cursor.getString(cursor.getColumnIndex(projection[3]));
 
-                    Image image = new Image(id, name, path);
+                    Uri uri = ContentUris.withAppendedId(contentUri, id);
+                    Image image = new Image(id, name, path, uri);
 
                     temp.add(image);
 
