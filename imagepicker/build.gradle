@@ -5,6 +5,8 @@ plugins {
     id 'maven-publish'
 }
 
+group = 'com.github.vlaushkin'
+
 android {
     final sdk = rootProject.ext.sdk
 
@@ -45,20 +47,14 @@ android {
     namespace 'com.esafirm.imagepicker'
 }
 
-tasks.register("sourcesJar", Jar) {
-    from android.sourceSets.main.java.srcDirs
-    archiveClassifier.set('sources')
-}
-
-artifacts {
-    archives sourcesJar
-}
-
 afterEvaluate {
     publishing {
         publications {
+            // Creates a Maven publication called "release".
             release(MavenPublication) {
                 from components.release
+                groupId = 'com.github.jitpack'
+                artifactId = 'android-image-picker'
             }
         }
     }
