@@ -34,7 +34,7 @@ object LocaleManager {
             newLocaleLanguage.length == 5 -> {
                 locale = Locale(
                     newLocaleLanguage.substring(0, 2),
-                    newLocaleLanguage.substring(3, 5).toUpperCase(Locale.getDefault())
+                    newLocaleLanguage.substring(3, 5).uppercase(Locale.getDefault())
                 )
                 locale
             }

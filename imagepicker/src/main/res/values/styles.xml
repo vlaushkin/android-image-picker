@@ -6,11 +6,13 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="ef_AppTheme" parent="ef_BaseTheme">
+    <style  name="ef_BaseAppTheme" parent="ef_BaseTheme">
         <item name="colorPrimary">@color/ef_colorPrimary</item>
         <item name="colorPrimaryDark">@color/ef_colorPrimaryDark</item>
         <item name="colorAccent">@color/ef_colorAccent</item>
     </style>
+
+    <style name="ef_AppTheme" parent="ef_BaseAppTheme"/>
 
     <style name="ef_CustomToolbarTheme" parent="Base.ThemeOverlay.AppCompat.ActionBar">
         <item name="android:textColorPrimary">@color/ef_colorTextPrimary</item>
